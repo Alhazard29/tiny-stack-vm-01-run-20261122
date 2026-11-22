@@ -34,14 +34,14 @@ function run(P,D){
    case 32:if(p<2)return[2,o];S[p-2]=S[p-2]===S[p-1]?1:0;p--;pc++;break;
    case 33:if(p<2)return[2,o];S[p-2]=S[p-2]<S[p-1]?1:0;p--;pc++;break;
    case 34:if(p<2)return[2,o];S[p-2]=(S[p-2]>>>0)<(S[p-1]>>>0)?1:0;p--;pc++;break;
-   case 48:if(pc+2>=P.length)return[9,o];a=P[pc+1]|P[pc+2]<<8;pc=pc+3+(a>32767?a-65536:a);break;
-   case 49:if(pc+2>=P.length)return[9,o];if(p<1)return[2,o];a=P[pc+1]|P[pc+2]<<8;b=pc+3+(a>32767?a-65536:a);pc=S[--p]===0?b:pc+3;break;
-   case 50:if(pc+2>=P.length)return[9,o];if(p<1)return[2,o];a=P[pc+1]|P[pc+2]<<8;b=pc+3+(a>32767?a-65536:a);pc=S[--p]!==0?b:pc+3;break;
+   case 48:if(pc+2>=P.length)return[9,o];a=(P[pc+1]|P[pc+2]<<8)<<16>>16;pc+=3+a;break;
+   case 49:if(pc+2>=P.length)return[9,o];if(p<1)return[2,o];a=(P[pc+1]|P[pc+2]<<8)<<16>>16;b=pc+3+a;pc=S[--p]===0?b:pc+3;break;
+   case 50:if(pc+2>=P.length)return[9,o];if(p<1)return[2,o];a=(P[pc+1]|P[pc+2]<<8)<<16>>16;b=pc+3+a;pc=S[--p]!==0?b:pc+3;break;
    case 51:if(pc+2>=P.length)return[9,o];if(c>=64)return[7,o];C[c++]=pc+3;pc=P[pc+1]|P[pc+2]<<8;break;
    case 52:if(!c)return[8,o];pc=C[--c];break;
    case 64:if(p<1)return[2,o];a=S[p-1];if(a<0||a>255)return[6,o];S[p-1]=M[a];pc++;break;
    case 65:if(p<2)return[2,o];a=S[p-1];b=S[p-2];if(a<0||a>255)return[6,o];M[a]=b;p-=2;pc++;break;
-   case 80:if(p<1)return[2,o];a=S[--p];b=String(a);if(o.length+b.length>65536)return[11,o];for(let i=0;i<b.length;i++)o.push(b.charCodeAt(i));pc++;break;
+   case 80:if(p<1)return[2,o];a=S[--p];b=String(a);if(o.length+b.length>65536)return[11,o];o.push(...Buffer.from(b));pc++;break;
    case 81:if(p<1)return[2,o];if(o.length>=65536)return[11,o];o.push(S[--p]&255);pc++;break;
    case 82:if(p>=256)return[3,o];S[p++]=di<D.length?D[di++]:-1;pc++;break;
    case 83:if(p<1)return[2,o];return[S[--p]&255,o];
